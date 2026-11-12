@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MedSafe Prescribing</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 480px; margin: 40px auto; }
+    .field { margin-bottom: 14px; }
+    label, .field > span { display: block; font-weight: bold; margin-bottom: 4px; }
+    input, select { width: 100%; padding: 6px; box-sizing: border-box; }
+    button { padding: 8px 16px; }
+    #message { margin-top: 16px; padding: 10px; }
+    .warning { background: #fde2e2; color: #7a0000; border: 1px solid #7a0000; }
+    .success { background: #e2f7e2; color: #0b4d0b; border: 1px solid #0b4d0b; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>New Prescription</h1>
+
+    <form id="rx-form" novalidate>
+      <div class="field">
+        <label for="patient">Patient name</label>
+        <input id="patient" name="patient" type="text">
+      </div>
+
+      <div class="field">
+        <label for="drug">Drug</label>
+        <select id="drug" name="drug">
+          <option value="">-- Select a drug --</option>
+          <option value="Amoxicillin" data-max="1000">Amoxicillin (max 1000 mg)</option>
+          <option value="Ibuprofen" data-max="800">Ibuprofen (max 800 mg)</option>
+          <option value="Paracetamol" data-max="1000">Paracetamol (max 1000 mg)</option>
+          <option value="Warfarin" data-max="10">Warfarin (max 10 mg)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <!-- Text looks like a label, but it is NOT connected to the input. -->
+        <span>Dose (mg)</span>
+        <input id="dose" name="dose" type="number" min="0">
+      </div>
+
+      <button type="submit">Submit prescription</button>
+    </form>
+
+    <div id="message" role="alert" hidden></div>
+  </main>
+
+  <script>
+    const form = document.getElementById('rx-form');
+    const message = document.getElementById('message');
+
+    function show(text, kind) {
+      message.textContent = text;
+      message.className = kind;
+      message.hidden = false;
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const patient = document.getElementById('patient').value.trim();
+      const drugSelect = document.getElementById('drug');
+      const drug = drugSelect.value;
+      const doseText = document.getElementById('dose').value.trim();
+
+      if (!patient || !drug || !doseText) {
+        show('Warning: please fill in all fields.', 'warning');
+        return;
+      }
+
+      const dose = Number(doseText);
+      const max = Number(drugSelect.selectedOptions[0].dataset.max);
+
+      if (!(dose > 0)) {
+        show('Warning: dose must be greater than 0 mg.', 'warning');
+        return;
+      }
+      if (dose > max) {
+        show(`Warning: ${dose} mg exceeds the maximum safe dose of ${max} mg for ${drug}.`, 'warning');
+        return;
+      }
+
+      show(`Prescription submitted: ${dose} mg ${drug} for ${patient}.`, 'success');
+      form.reset();
+    });
+  </script>
+</body>
+</html>

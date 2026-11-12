@@ -1,0 +1,17 @@
+{
+  "name": "hospital-web-testing",
+  "version": "1.0.0",
+  "description": "Hands-on Playwright web testing exercises for a hospital software house",
+  "private": true,
+  "scripts": {
+    "start": "http-server app -p 3000 -c-1",
+    "test": "playwright test",
+    "test:solutions": "playwright test --config=solutions/playwright.config.js",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
+    "http-server": "^14.1.1"
+  }
+}

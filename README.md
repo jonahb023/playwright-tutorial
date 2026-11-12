@@ -19,20 +19,20 @@ The form has: patient name, a drug dropdown (each drug has a maximum safe dose),
 | Paracetamol | 1000 mg |
 | Warfarin | 10 mg |
 
-- Empty fields → red warning: *"Warning: please fill in all fields."*
-- Dose over the maximum → red warning: *"Warning: 50 mg exceeds the maximum safe dose of 10 mg for Warfarin."*
-- Valid entry → green confirmation: *"Prescription submitted: 500 mg Amoxicillin for Jane Doe."*
+- Empty fields -> red warning: *"Warning: please fill in all fields."*
+- Dose over the maximum -> red warning: *"Warning: 50 mg exceeds the maximum safe dose of 10 mg for Warfarin."*
+- Valid entry -> green confirmation: *"Prescription submitted: 500 mg Amoxicillin for Jane Doe."*
 
 ## Repo layout
 
 ```
 hospital-web-testing/
-├── README.md             ← this handout
-├── app/index.html        ← the sample prescription form
-├── tests/starter.spec.js ← starter test (Exercise 1); your new tests go here too
-├── solutions/            ← working answers for Exercises 2–4
-├── package.json          ← project dependencies
-└── playwright.config.js  ← Playwright settings (browsers, auto-starts the app)
+├── README.md              this handout
+├── app/index.html         the sample prescription form
+├── tests/starter.spec.js  starter test (Exercise 1); your new tests go here too
+├── solutions/             working answers for Exercises 2–4
+├── package.json           project dependencies
+└── playwright.config.js   Playwright settings (browsers, auto-starts the app)
 ```
 
 ---
@@ -41,7 +41,7 @@ hospital-web-testing/
 
 | Software | Version | Get it |
 |---|---|---|
-| **Node.js** | LTS version 22 or newer (24 LTS recommended) | https://nodejs.org → "LTS" installer |
+| **Node.js** | LTS version 22 or newer (24 LTS recommended) | https://nodejs.org -> "LTS" installer |
 | **Git** | any recent (2.x) | https://git-scm.com/downloads |
 | VS Code *(optional)* | any | https://code.visualstudio.com |
 
@@ -117,7 +117,7 @@ prints `Version 1.65.0` (or newer), **and** there were no red `Error` lines at t
 
 **Expected outcome**
 ```
-  ✓  1 [chromium] › tests/starter.spec.js:5:1 › prescription form loads
+  ok  1 [chromium] › tests/starter.spec.js:5:1 › prescription form loads
   1 passed
 ```
 The report shows 1 passed test (green).
@@ -277,7 +277,7 @@ Run every test on every browser:
 ```bash
 npx playwright test
 ```
-After finishing all four exercises: **12 passed** (4 test files × 3 browsers).
+After finishing all four exercises: **12 passed** (4 test files x 3 browsers).
 
 ## Troubleshooting
 

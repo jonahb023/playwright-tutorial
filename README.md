@@ -1,7 +1,7 @@
 # Playwright Tutorial with Hospital Web Testing
 
 **Repo:** https://github.com/jonahb023/hospital-web-testing  
-**Tool:** [Playwright](https://playwright.dev) (JavaScript / Node.js) — free, open source, by Microsoft  
+**Tool:** [Playwright](https://playwright.dev) (JavaScript / Node.js) - free, open source, by Microsoft  
 **Total time:** about 40 minutes
 
 ## What is this?

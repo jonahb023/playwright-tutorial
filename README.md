@@ -1,8 +1,8 @@
-# Hospital Web Testing with Playwright — Hands-On Exercises
+# Playwright Tutorial with Hospital Web Testing
 
 **Repo:** https://github.com/jonahb023/hospital-web-testing  
 **Tool:** [Playwright](https://playwright.dev) (JavaScript / Node.js) — free, open source, by Microsoft  
-**Total time:** about 40 minutes (setup 10 min + four exercises)
+**Total time:** about 40 minutes
 
 ## What is this?
 
@@ -45,12 +45,11 @@ hospital-web-testing/
 | **Git** | any recent (2.x) | https://git-scm.com/downloads |
 | VS Code *(optional)* | any | https://code.visualstudio.com |
 
-Also needed: about **1 GB free disk space** (for the test browsers) and an internet connection during setup.
+Also needed: about **1 GB free disk space** (for the test browsers).
 
 **Opening a terminal**
 - **Windows:** press Start, type `PowerShell`, open *Windows PowerShell*.
 - **Mac:** press `Cmd + Space`, type `Terminal`, press Enter.
-- **VS Code (either):** menu *Terminal → New Terminal*.
 
 Check your installs (same on Windows and Mac):
 
@@ -61,11 +60,11 @@ node -v
 git --version
 ```
 
-You should see something like `v24.11.0` and `git version 2.47.0`. If you get "command not found" / "not recognized", install that program, then **close and reopen** the terminal.
+You should see something like `v26.13.1` and `git version 2.47.0`. If you get "command not found" / "not recognized", install that program, then **close and reopen** the terminal.
 
 ---
 
-## Setup (≈10 minutes)
+## Setup 
 
 Run these one at a time. They are the same on Windows and Mac.
 
@@ -82,13 +81,13 @@ cd hospital-web-testing
 npm install
 ```
 
-**3. Download the test browsers** (Chromium, Firefox, WebKit — takes a few minutes)
+**3. Download the test browsers** (takes a few minutes)
 ```bash
 npx playwright install
 ```
 > **Linux only:** use `npx playwright install --with-deps` instead.
 
-### ✅ You're set up if you see…
+### Check if...
 
 ```bash
 npx playwright --version
@@ -97,11 +96,11 @@ prints `Version 1.65.0` (or newer), **and** there were no red `Error` lines at t
 
 ---
 
-## Exercise 1 — First test run (≈5 min, easy)
+## Exercise 1 — First test run
 
 **Goal:** Run the provided starter test and view the report.
 
-**Why this matters for a hospital software house:** A test that runs in seconds can be repeated after every code change — far faster and more consistent than a person re-clicking through a drug database screen by hand.
+**Why this matters** A test that runs in seconds can be repeated after every code change and is far faster and more consistent than a person re-clicking through a drug database screen by hand.
 
 **Steps**
 1. Open `tests/starter.spec.js` and read it. It opens the form and checks the title, heading, and submit button exist.
@@ -125,14 +124,14 @@ The report shows 1 passed test (green).
 
 ---
 
-## Exercise 2 — Record a test with Codegen (≈10 min, easy)
+## Exercise 2 — Record a test with Codegen
 
 **Goal:** Create a test without writing code, by clicking through the form while Playwright records.
 
-**Why this matters for a hospital software house:** Staff who are new to testing can build tests for complex data-entry screens just by using them, then hand the recordings to developers to refine.
+**Why this matters:** Staff who are new to testing can build tests for complex data-entry screens just by using them, then hand the recordings to developers to refine.
 
 **Steps**
-1. Start the app yourself (Codegen doesn't start it automatically):
+1. Start the app yourself:
    ```bash
    npm start
    ```
@@ -142,12 +141,12 @@ The report shows 1 passed test (green).
    npx playwright codegen http://localhost:3000
    ```
    Two windows open: a browser showing the form, and the **Playwright Inspector** showing code.
-3. In the browser window, fill in a **valid** prescription:
+3. In the test browser window, fill in a **valid** prescription, something like this:
    - Patient name: `Jane Doe`
    - Drug: `Amoxicillin`
    - Dose: `500`
    - Click **Submit prescription**
-4. Add a check: in the small toolbar at the top of the browser window, click **Assert text** (the icon with "ab"), then click the green confirmation message, then click ✓ to accept. This adds an `expect(...)` line.
+4. Add a check: in the small toolbar at the top of the browser window, click **Assert text** (the icon with "ab"), then click the green confirmation message, then click the checkmark to accept. This adds an `expect(...)` line.
 5. In the Inspector window, click the **Copy** button.
 6. In VS Code (or any editor), create a new file `tests/recorded.spec.js`, paste, and save.
 7. Close the Codegen windows. In the second terminal, replay your test:
@@ -162,11 +161,11 @@ The report shows 1 passed test (green).
 
 ---
 
-## Exercise 3 — Write a validation test, run on 3 browsers (≈10 min, medium)
+## Exercise 3 — Write a validation test, run on 3 browsers
 
 **Goal:** Write a test by hand that proves an **unsafe dose is blocked**, then run it on Chromium, Firefox, and WebKit (Safari's engine).
 
-**Why this matters for a hospital software house:** A rule-based prescribing system *must* reject dangerous doses. An automated test guarantees this safety rule still works after every change, in every browser the hospital uses.
+**Why this matters** A rule-based prescribing system has to reject dangerous doses. An automated test guarantees this safety rule still works after every change, in every browser the hospital uses.
 
 **Steps**
 1. Create a new file `tests/validation.spec.js` and paste:
@@ -176,7 +175,7 @@ The report shows 1 passed test (green).
    test('unsafe Warfarin dose shows a warning', async ({ page }) => {
      await page.goto('/');
 
-     // Fill the form with a dose far above Warfarin's 10 mg limit
+     // Fill the form with a dose above Warfarin's 10 mg limit
      await page.getByLabel('Patient name').fill('John Smith');
      await page.getByLabel('Drug').selectOption('Warfarin');
      await page.locator('#dose').fill('50');
@@ -197,20 +196,20 @@ The report shows 1 passed test (green).
 
 **Expected outcome**
 ```
-  ✓  [chromium] › tests/validation.spec.js › unsafe Warfarin dose shows a warning
-  ✓  [firefox]  › tests/validation.spec.js › unsafe Warfarin dose shows a warning
-  ✓  [webkit]   › tests/validation.spec.js › unsafe Warfarin dose shows a warning
+  ok  [chromium] › tests/validation.spec.js › unsafe Warfarin dose shows a warning
+  ok  [firefox]  › tests/validation.spec.js › unsafe Warfarin dose shows a warning
+  ok  [webkit]   › tests/validation.spec.js › unsafe Warfarin dose shows a warning
   3 passed
 ```
 Answer: `solutions/ex3-validation.spec.js`.
 
 ---
 
-## Exercise 4 — Accessibility scan with axe-core (≈10 min, medium)
+## Exercise 4 — Accessibility scan with axe-core 
 
 **Goal:** Automatically scan the form for accessibility problems, find the **one planted bug**, fix it, and confirm the fix.
 
-**Why this matters for a hospital software house:** Clinicians and patients include people using screen readers. An unlabeled dose field means a blind user can't tell what to type — a usability *and* patient-safety risk, and a legal compliance issue (ADA / Section 508 / WCAG).
+**Why this matters** Clinicians and patients include people using screen readers. An unlabeled dose field means a blind user can't tell what to type — a usability and patient-safety risk, and a legal compliance issue.
 
 **Steps**
 1. Create a new file `tests/accessibility.spec.js` and paste:
@@ -221,7 +220,7 @@ Answer: `solutions/ex3-validation.spec.js`.
    test('prescription form has no accessibility violations', async ({ page }) => {
      await page.goto('/');
 
-     // Scan the page against WCAG 2 A and AA rules
+     // Scan the page against legal rules
      const results = await new AxeBuilder({ page })
        .withTags(['wcag2a', 'wcag2aa'])
        .analyze();
@@ -250,7 +249,7 @@ Answer: `solutions/ex3-validation.spec.js`.
    Received: 1
    1 failed
    ```
-3. Fix the bug. Open `app/index.html` and find this line (around line 40):
+3. Fix the bug. Open `app/index.html` and find this line (line 40):
    ```html
    <span>Dose (mg)</span>
    ```
@@ -279,14 +278,6 @@ Run every test on every browser:
 npx playwright test
 ```
 After finishing all four exercises: **12 passed** (4 test files × 3 browsers).
-
-Run the provided answer files instead of yours:
-```bash
-npm run test:solutions
-```
-**9 passed** once you've fixed the label in Exercise 4. (Before the fix: 6 passed, 3 failed — the accessibility test fails on each browser, as expected.)
-
----
 
 ## Troubleshooting
 

@@ -8,4 +8,5 @@ test('prescription form loads', async ({ page }) => {
   await expect(page).toHaveTitle('MedSafe Prescribing');
   await expect(page.getByRole('heading', { name: 'New Prescription' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Submit prescription' })).toBeVisible();
+  
 });
